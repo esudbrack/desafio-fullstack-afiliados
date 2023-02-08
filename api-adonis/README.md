@@ -1,3 +1,9 @@
+# Atividades
+
+## Registro de usuario
+Foi criada uma rota para adicionar usuarios com acesso apenas ao administrador da plataforma. 
+O primeiro usuario registrado automaticamente será cadastrado como admin.
+
 # Adonis fullstack application
 
 This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
