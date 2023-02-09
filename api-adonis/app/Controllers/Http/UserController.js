@@ -12,12 +12,13 @@ class UserController {
               message: "You must enter a name, email and password."
             })
           }
-    
+          
+          // If theres no users on the table the first one will be the admin
           let user = await User.first();
     
           let is_admin = user ? false : true;
     
-          // Checar permissão para registrar novas contas
+          // Check if current user is admin before creating
           if (user && !auth.user?.is_admin) {
             return response.status(403).send({
               message: "Not authorized",
@@ -28,7 +29,7 @@ class UserController {
           if (userExists) {
             return response.status(400).send({
               status: "error",
-              message: "User already registered",
+              message: "Email in use",
             });
           }
     
@@ -44,7 +45,7 @@ class UserController {
           let success = await user.save();
           return response.status(201).json({
             status: "ok",
-            message: "User is registered",
+            message: "User created with success",
             success,
             UserID: user["_id"],
           });
