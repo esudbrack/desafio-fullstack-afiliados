@@ -48,6 +48,40 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Import Transactions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "sales",
+									"description": "Arquivo de entrada",
+									"type": "file",
+									"src": "/C:/Users/euler/Projects/desafio-fullstack-afiliados/sales.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/transactions/import",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"transactions",
+								"import"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
