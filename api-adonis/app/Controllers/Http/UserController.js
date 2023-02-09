@@ -42,16 +42,15 @@ class UserController {
             user.is_admin = request.body.is_admin
           }
     
-          let success = await user.save();
-          return response.status(201).json({
+          await user.save();
+          return response.status(200).json({
             status: "ok",
             message: "User created with success",
-            success,
             UserID: user["_id"],
           });
         } catch (error) {
           console.log(error.message);
-          response.status(403).json({
+          return response.status(403).json({
             status: "error",
             debug_error: error.message,
           });
