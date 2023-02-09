@@ -1,5 +1,6 @@
 'use strict'
 const Transaction = use("App/Models/Transaction");
+const Database = use('Database')
 const Helpers = use('Helpers')
 const fs = require('fs');
 
@@ -51,6 +52,32 @@ class TransactionController {
             });
         }
     }
+
+    async list({ response }) {
+        try {
+            // Get total values by seller
+            let sellers = await Database.raw(`SELECT SUM(CASE WHEN type = 3 THEN -value ELSE value END) AS total, seller AS name
+                FROM transactions
+                GROUP BY seller;`)
+
+            // Then list all transactions by seller
+            let transactions = await Transaction.all()
+            transactions = transactions.toJSON()
+            for (const seller of sellers) {
+                seller.transactions = transactions.filter(t => (t.seller == seller.name))
+            }
+
+            return { sellers };
+        } catch (error) {
+            console.log(error.message);
+            return response.status(403).json({
+                status: "error",
+                debug_error: error.message,
+            });
+        }
+        
+    }
+
 }
 
 module.exports = TransactionController
