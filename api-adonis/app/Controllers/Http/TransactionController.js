@@ -67,6 +67,29 @@ class TransactionController {
                 seller.transactions = transactions.filter(t => (t.seller == seller.name))
             }
 
+            // Sanitize data
+            sellers = sellers.map(s => {
+                return {
+                    type: s.transactions.findIndex(t => t.type == 3) >= 0 ? 'Afiliado' : 'Produtor',
+                    name: s.name,
+                    total: (s.total / 100).toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                    }),
+                    transactions: s.transactions.map(t => {
+                        return {
+                            type: (t.type == 1) ? 'Venda produtor' : (t.type == 2) ? 'Venda afiliado' : (t.type == 3) ? 'Comissão paga' : 'Comissão recebida',
+                            transaction_date: new Date(t.transaction_date).toLocaleString("pt-br"),
+                            product_description: t.product_description,
+                            value: (t.value / 100).toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL',
+                            })
+                        }
+                    })
+                }
+            })
+
             return { sellers };
         } catch (error) {
             console.log(error.message);
