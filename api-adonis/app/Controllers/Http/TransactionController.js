@@ -63,9 +63,17 @@ class TransactionController {
                 FROM transactions
                 GROUP BY seller;`);
 
+      // MySQL driver returns two arrays the first one is the data
+      sellers = sellers[0];
+
       // Then list all transactions by seller
       let transactions = await Transaction.all();
       transactions = transactions.toJSON();
+
+      if(!transactions.length) {
+        return { sellers: [] };
+      }
+
       for (const seller of sellers) {
         seller.transactions = transactions.filter(
           (t) => t.seller == seller.name
@@ -86,6 +94,7 @@ class TransactionController {
           }),
           transactions: s.transactions.map((t) => {
             return {
+              id: t.id,
               type:
                 t.type == 1
                   ? "Venda produtor"
