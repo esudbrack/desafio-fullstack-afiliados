@@ -17,6 +17,7 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
-Route.post("/users/register", "UserController.register");
+Route.post("/signup", "UserController.register");
+Route.post("/signin", "UserController.login");
 Route.post("/transactions/import", "TransactionController.import");
 Route.get("/transactions/list", "TransactionController.list");
